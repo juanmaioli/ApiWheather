@@ -1,13 +1,16 @@
 <?php
-	//Edit and change name to config.php
-	$db_server = "localhost";
-	$db_user = "root";
-	$db_pass = "";
-	$db_name = "drawers";
-	$db_serverport = "3306";
-	$table_pre = "drawers_";
-	$www_host = "localhost";
-	$www_https = "";
-	$site_cookie = "drawersID";
+//Edit and change name to config.php
+	$servername = "localhost";
+	$username = "user";
+	$password = "passdword";
+	$dbname = "bade de datos";
+	$dbTable = "tabla";
+	$servidorName ="pikapp.com.ar";
+	$zonaHoraria = "-3 hours";
+	$timezone  = -3;
+	$latitudActual = 00.000000;
+	$longitudActual = 00.000000;
+	$ciudad = "nombre en openweathermap.org";
+	$apiKey = "key de openweathermap.org";
 	$contact_mail="contact@example.com";
 ?>
