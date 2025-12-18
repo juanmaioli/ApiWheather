@@ -26,8 +26,8 @@ $w_prpInt = 0;
 
 // --- Get sunrise and sunset times ---
 $sun_info = date_sun_info(time(), $latitudActual, $longitudActual);
-$amanecer = gmdate("H:i", $sun_info['sunrise'] + 3600 * ($timezone));
-$atardecer = gmdate("H:i", $sun_info['sunset'] + 3600 * ($timezone));
+$amanecer = gmdate('H:i'. $sun_info['sunrise'] + 3600 * ($timezone));
+$atardecer = gmdate('H:i'. $sun_info['sunset'] + 3600 * ($timezone));
 
 // --- Database connection ---
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -72,20 +72,20 @@ $w_iconGrande = iconoClimaEmoji($w_icon);
 
 // --- Build the output array ---
 $output_data = [
-    ['icon' => '📍', 'dato' => $w_city],
-    ['icon' => $w_iconGrande, 'dato' => 'Icono'], // 'Icono' is not very descriptive, but keeping it
-    ['icon' => '📝', 'dato' => $w_desc],
-    ['icon' => '🌡️', 'dato' => $temp_display],
-    ['icon' => '🤔🌡️', 'dato' => $st_display],
-    ['icon' => '💦', 'dato' => $w_humedadMostrar . ' %H'],
-    ['icon' => '📈', 'dato' => $w_pressure . 'hpa'],
-    ['icon' => '🌬️', 'dato' => 'del ' . $w_dir],
-    ['icon' => '💨', 'dato' => $w_wind . 'km/h'],
-    ['icon' => '☁️', 'dato' => $w_cloud . '%'],
-    ['icon' => '🔭', 'dato' => $w_visibility . 'km'],
-    ['icon' => '🌇', 'dato' => $amanecer],
-    ['icon' => '🌃', 'dato' => $atardecer],
-    ['icon' => '🗓️', 'dato' => $w_reportm]
+    ['etiqueta'=>'Ciudad','icon' => '📍', 'dato' => $w_city],
+    ['etiqueta'=>'Estado','icon' => $w_iconGrande, 'dato' => 'Icono'], // 'Icono' is not very descriptive, but keeping it
+    ['etiqueta'=>'Descripción','icon' => '📝', 'dato' => $w_desc],
+    ['etiqueta'=>'Temperatura','icon' => '🌡️', 'dato' => $temp_display],
+    ['etiqueta'=>'Sensación Térmica','icon' => '🤔🌡️', 'dato' => $st_display],
+    ['etiqueta'=>'Humedad','icon' => '💦', 'dato' => $w_humedadMostrar . ' %H'],
+    ['etiqueta'=>'Presión','icon' => '📈', 'dato' => $w_pressure . 'hpa'],
+    ['etiqueta'=>'Viento','icon' => '🌬️', 'dato' => 'del ' . $w_dir],
+    ['etiqueta'=>'Velocidad del Viento','icon' => '💨', 'dato' => $w_wind . 'km/h'],
+    ['etiqueta'=>'Porcentaje de Nubes','icon' => '☁️', 'dato' => $w_cloud . '%'],
+    ['etiqueta'=>'Visibilidad','icon' => '🔭', 'dato' => $w_visibility . 'km'],
+    ['etiqueta'=>'Amanecer','icon' => '🌇', 'dato' => $amanecer],
+    ['etiqueta'=>'Atardecer','icon' => '🌃', 'dato' => $atardecer],
+    ['etiqueta'=>'Fecha del reporte','icon' => '🗓️', 'dato' => $w_reportm]
 ];
 
 // --- Echo the final JSON output ---
