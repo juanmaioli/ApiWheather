@@ -26,8 +26,8 @@ $w_prpInt = 0;
 
 // --- Get sunrise and sunset times ---
 $sun_info = date_sun_info(time(), $latitudActual, $longitudActual);
-$amanecer = gmdate('H:i'. $sun_info['sunrise'] + 3600 * ($timezone));
-$atardecer = gmdate('H:i'. $sun_info['sunset'] + 3600 * ($timezone));
+$amanecer = gmdate('H:i', $sun_info['sunrise'] + 3600 * ($timezone));
+$atardecer = gmdate('H:i', $sun_info['sunset'] + 3600 * ($timezone));
 
 // --- Database connection ---
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -93,3 +93,6 @@ $output_data = [
 echo json_encode($output_data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
 ?>
+
+
+
