@@ -5,8 +5,8 @@ header("Content-Type: application/json; charset=utf-8");
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 
-include("config.php");
-include("funciones.php");
+include("../config.php");
+include("../funciones.php");
 
 // --- Initialize variables with default values ---
 $w_reportm = '';

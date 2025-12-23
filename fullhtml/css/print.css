@@ -1,0 +1,76 @@
+body {
+  background-image: none;
+  color:#000;
+  font-size:8px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+b {
+  color:#000;
+  font-size:18px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight:bold;
+
+}
+
+h1 {
+    color:#fff;
+    font-size:60px;
+    vertical-align: middle;
+}
+
+h2 {
+    color:#fff;
+    font-size:15px;
+    background-color:#000;
+    text-align:center;
+}
+
+
+h3 {
+	page-break-before: always;
+}
+
+h4 {
+    color:#000;
+    font-size:15px;
+    text-align:center;
+}
+
+ul, img, table {
+	page-break-inside: avoid;
+}
+
+.bordered td {padding: 1px;font-weight:bold;font-family:"Helvetica";font-size:16px;color:#1d2129;border: solid #1d2129 1px;}
+.bordered th {font-size: 12px;color: #1d2129;border: solid #1d2129 1px;}
+.bordered tr {height:25px;border: solid #000 1px;}
+.bordered {border: solid #1d2129 1px;}
+
+.customHr {
+    width: 95%
+    font-size: 1px;
+    color: rgba(0, 0, 0, 0);
+    line-height: 1px;
+
+    background-color: grey;
+    margin-top: -6px;
+    margin-bottom: 10px;
+}
+
+hr {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 8px auto;
+    height: 0;
+    width: 100%;
+    max-height: 0;
+    font-size: 1px;
+    line-height: 0;
+    clear: both;
+    border: none;
+    border-top: 1px dotted #aaaaaa;
+    border-bottom: 1px dotted #ffffff;
+
+ }
