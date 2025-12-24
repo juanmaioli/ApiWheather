@@ -101,15 +101,10 @@ $mesNombre = mesMostrar();
 	<title>PikAppWiFi</title>
 
 	<!-- Bootstrap core CSS -->
-	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
 	<!-- Custom fonts for this template -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-	<!-- Plugin CSS -->
-	<link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-	<!-- Custom styles for this template -->
-	<link href="css/sb-admin.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
-	<!-- <link href="bootstrap3.min.css" rel="stylesheet"> -->
+	<link rel="stylesheet" href="./css/all.css">
+
 	<link rel="apple-touch-startup-image" href="images/apple-icon-180x180.png">
 	<link rel="apple-touch-icon" sizes="57x57" href="images/apple-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="images/apple-icon-60x60.png">

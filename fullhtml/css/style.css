@@ -1,35 +1,21 @@
-/**
-Info #00C0EF
-Info:hover #0099bf
-Success #00A65A
-Success:hover #008D4C
-Warning #F39C12
-Warning:hover  #DB8B0B
-Danger #DD4B39
-Danger:hover #D33724
-**/
-body{font-family:"Helvetica";}
-div.clear {clear: both;}
-.valores {text-align:center;padding:10px;font-size:2.99em;}
-.etiqueta {text-align:center;padding:1px;font-size:1.5em;}
-.etiquetaFecha {text-align:center;padding:1px;font-size:1.0em;}
-.profile-img1
-{
-
-    height: 25px;
-    display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
+@font-face {
+  font-family: "Montserrat";
+  src: url("../webfonts/Montserrat-VariableFont_wght.ttf");
 }
 
-.profile-img2
-{
-
-    height: 90px;
-    margin: 0 auto 10px;
-    display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
+@font-face {
+  font-family: "Roboto";
+  src: url("../webfonts/Roboto-Light.ttf");
 }
+@font-face {
+  font-family: "Lato";
+  src: url("../webfonts/Lato-Regular.ttf");
+}
+
+body{font-family: 'Lato', sans-serif;}
+h3{font-family: 'Montserrat', sans-serif;}
+h4{font-family: 'Roboto', sans-serif;}
+textarea {border: none; outline: none;resize: none;width: 100%;height: 100%;color:#666;font-style: normal;font-family:"Lucida Console", Monaco, monospace;}
+code{height: 150px;}
+.card{box-shadow: 0 4px 8px 0 rgba(185, 134, 134, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);height: 350px;}
+.bd-mode-toggle {z-index: 1500;}
