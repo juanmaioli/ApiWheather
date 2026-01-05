@@ -9,9 +9,7 @@ $nuevoAnio = $date->format('Y');
 $nuevoMes =  $date->format('m');
 "";
 
-$timezone  = -3;
-$latitudActual = -38.94276;
-$longitudActual = -68.053724;
+// $timezone, $latitudActual, $longitudActual come from config.php
 $data = date_sun_info(time(), $latitudActual, $longitudActual);
 
 $amanecer = gmdate("H:i", $data['sunrise'] + 3600 * ($timezone));

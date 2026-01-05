@@ -1,38 +1,6 @@
 <?php
 include("config.php");
-
-// --- Function to convert wind degrees to cardinal direction ---
-function wind_cardinals($deg) {
-    // Handle the North case which wraps around 360/0
-    if ($deg >= 348.75 || $deg < 11.25) {
-        return 'N';
-    }
-
-    $cardinalDirections = [
-        'NNE' => [11.25, 33.75],
-        'NE'  => [33.75, 56.25],
-        'ENE' => [56.25, 78.75],
-        'E'   => [78.75, 101.25],
-        'ESE' => [101.25, 123.75],
-        'SE'  => [123.75, 146.25],
-        'SSE' => [146.25, 168.75],
-        'S'   => [168.75, 191.25],
-        'SSO' => [191.25, 213.75],
-        'SO'  => [213.75, 236.25],
-        'OSO' => [236.25, 258.75],
-        'O'   => [258.75, 281.25],
-        'ONO' => [281.25, 303.75],
-        'NO'  => [303.75, 326.25],
-        'NNO' => [326.25, 348.75]
-    ];
-
-    foreach ($cardinalDirections as $dir => $angles) {
-        if ($deg >= $angles[0] && $deg < $angles[1]) {
-            return $dir;
-        }
-    }
-    return 'N/A'; // Return a default value if something goes wrong
-}
+include("funciones.php");
 
 // --- Fetch data from OpenWeatherMap API ---
 // Use variables from config.php ($ciudad, $apiKey)
