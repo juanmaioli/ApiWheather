@@ -1,4 +1,10 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: text/plain; charset=utf-8");
+
+mb_internal_encoding('UTF-8');
+mb_http_output('UTF-8');
+
 include("../config.php");
 include("../funciones.php");
 
@@ -15,17 +21,19 @@ $w_icon = '';
 $w_visibility = 0;
 $w_city = 'No disponible';
 $w_cloud = 0;
+// Add any other variables that might not be set
+$w_prpInt = 0;
 
 // --- Get sunrise and sunset times ---
 $sun_info = date_sun_info(time(), $latitudActual, $longitudActual);
-$amanecer = gmdate("H:i", $sun_info['sunrise'] + 3600 * ($timezone));
-$atardecer = gmdate("H:i", $sun_info['sunset'] + 3600 * ($timezone));
+$amanecer = gmdate('H:i', $sun_info['sunrise'] + 3600 * ($timezone));
+$atardecer = gmdate('H:i', $sun_info['sunset'] + 3600 * ($timezone));
 
 // --- Database connection ---
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    // For this simple text output, we can just show an error message.
-    die("Error de conexión.");
+    // In a real app, you might want to log this error instead of just dying
+    die(json_encode(["error" => "Error de conexión a la base de datos: " . $conn->connect_error]));
 }
 $conn->set_charset("utf8");
 
@@ -47,50 +55,37 @@ if ($result && $row = $result->fetch_assoc()) {
     $w_visibility  = $row["w_visibility"] ?? 0;
     $w_city        = $row["w_city"];
     $w_cloud       = $row["w_cloud"] ?? 0;
+    $w_prpInt      = $row["w_prpInt"] ?? 0;
 }
 $conn->close();
 
 // --- Post-process data for display ---
-$temp_display_str = $w_tempMostrar . "&deg;C";
-$st_display_str = $w_temp_st . "&deg;C";
+$temp_display = $w_tempMostrar . "°C";
+$st_display = $w_temp_st . "°C";
 
-// Original logic had a slight bug showing 'X&deg;C - ' when equal
-if ($w_temp_st != $w_tempMostrar) {
-    // Values are different, show both
-} else {
-    // Values are the same, make 'feels like' temperature empty
-    $st_display_str = "-";
+if ($w_temp_st == $w_tempMostrar) {
+    $st_display = "-";
 }
 
 $w_iconGrande = iconoClimaEmoji($w_icon);
 
+// --- Output Plain Text ---
+echo "📍 " . $w_city . PHP_EOL;
+echo $w_iconGrande . PHP_EOL; // Estado
+echo "📝 " . $w_desc . PHP_EOL;
+echo "🌡️ " . $temp_display . PHP_EOL;
+echo "🤔🌡️ " . $st_display . PHP_EOL;
+echo "💦 " . $w_humedadMostrar . " %H" . PHP_EOL;
+echo "📈 " . $w_pressure . "hpa" . PHP_EOL;
+echo "🌬️ del " . $w_dir . PHP_EOL;
+echo "💨 " . $w_wind . "km/h" . PHP_EOL;
+echo "☁️ " . $w_cloud . "%" . PHP_EOL;
+echo "🔭 " . $w_visibility . "km" . PHP_EOL;
+echo "🌇 " . $amanecer . PHP_EOL;
+echo "🌃 " . $atardecer . PHP_EOL;
+echo "🗓️ " . $w_reportm . PHP_EOL;
+
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Clima</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.5; }
-        .emoji-container { text-align: center; font-size: 4em; }
-    </style>
-</head>
-<body>
 
-<div class='emoji-container'><span class='emoji'><?php echo htmlspecialchars($w_iconGrande); ?></span></div><br>
-📍 <?php echo htmlspecialchars($w_city); ?><br>
-📝 <?php echo htmlspecialchars($w_desc); ?><br>
-🌡️ <?php echo $temp_display_str; // HTML is already in the string, no need to escape ?><br>
-🤔🌡️ <?php echo $st_display_str; // HTML is already in the string, no need to escape ?><br>
-💦 <?php echo htmlspecialchars($w_humedadMostrar); ?> %H<br>
-📈 <?php echo htmlspecialchars($w_pressure); ?>hpa<br>
-🌬️ del <?php echo htmlspecialchars($w_dir); ?><br>
-💨 <?php echo htmlspecialchars($w_wind); ?>km/h<br>
-☁️ <?php echo htmlspecialchars($w_cloud); ?>%<br>
-🔭 <?php echo htmlspecialchars($w_visibility); ?>km<br>
-🌇 <?php echo htmlspecialchars($amanecer); ?><br>
-🌃 <?php echo htmlspecialchars($atardecer); ?><br>
-🗓️ <?php echo htmlspecialchars($w_reportm); ?><br>
 
-</body>
-</html>
+
