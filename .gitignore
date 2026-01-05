@@ -2,4 +2,4 @@
 config.php
 .eslintrc.json
 .htaccess
-.vscode/settings.json
+.vscode/
