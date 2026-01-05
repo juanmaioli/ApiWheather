@@ -15,8 +15,8 @@ $latitudActual = -38.94276;
 $longitudActual = -68.053724;
 $data = date_sun_info(time(), $latitudActual, $longitudActual);
 
-$amanecer = gmdate("H:i:s", $data['sunrise'] + 3600 * ($timezone));
-$atardecer = gmdate("H:i:s", $data['sunset'] + 3600 * ($timezone));
+$amanecer = gmdate("H:i", $data['sunrise'] + 3600 * ($timezone));
+$atardecer = gmdate("H:i", $data['sunset'] + 3600 * ($timezone));
 
 //DatosWidget
 $sql = "SELECT * FROM cava_weather2 order by w_report desc limit 1";
@@ -135,7 +135,7 @@ $mesNombre = mesMostrar();
 			<div class="col-md-4">
 				<div class="card m-2">
 					<div class="card-header">
-						<h3 class="mt-3"><i class="fa fa-map-marker-alt text-primary"></i> Ciudad: <?php echo $w_city; ?></h3>
+						<h3 class="mt-3"><i class="fa-thin fa-map-marker-alt text-primary"></i> Ciudad: <?php echo $w_city; ?></h3>
 					</div>
 					<div class="card-body text-center">
 						<div class='card-group'>
@@ -172,17 +172,17 @@ $mesNombre = mesMostrar();
 											<td class="text-right "><?php echo $w_visibility; ?>km</td>
 										</tr>
 										<tr>
-											<td colspan="2"><h5><i class="fas fa-sun text-warning"></i><i class="fas fa-arrow-circle-up text-info"></i> <?php echo $amanecer; ?></h5></td>
+											<td colspan="2"><h5><i class="fa-thin fa-sunrise text-warning"></i> <?php echo $amanecer; ?></h5></td>
 										</tr>
 										<tr>
-											<td colspan="2"><h5><i class="fas fa-sun text-warning"></i><i class="fas fa-arrow-circle-down text-info"></i> <?php echo $atardecer; ?></h5></td>
+											<td colspan="2"><h5><i class="fa-thin fa-sunset text-warning"></i><?php echo $atardecer; ?></h5></td>
 										</tr>
 									</table>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="card-footer text-muted"><i class="fa fa-calendar"></i> Fecha reporte : <?php echo $w_reportm; ?> </div>
+					<div class="card-footer text-muted"><i class="fa-thin fa-calendar"></i> Fecha reporte : <?php echo $w_reportm; ?> </div>
 				</div>
 			</div>
 			<div class="col-md-4"></div>
