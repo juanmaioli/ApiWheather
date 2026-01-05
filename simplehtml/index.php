@@ -59,10 +59,8 @@ if ($w_temp_st != $w_tempMostrar) {
 
 $conn->close();
 
-$w_iconGrande = iconoClima2($w_icon);
-// $mesNombre = mesMostrar();
+$w_iconGrande = iconoClimaEmoji($w_icon);
 
-//echo "<span>hghnghhgjhg</span>";
 ?>
 
 <div class='emoji-container'><span class='emoji'><?php echo $w_iconGrande; ?></span></div><br>
@@ -79,4 +77,3 @@ $w_iconGrande = iconoClima2($w_icon);
 🌇 <?php echo $amanecer; ?><br>
 🌃 <?php echo $atardecer; ?><br>
 🗓️ <?php echo $w_reportm; ?><br>
-<!--
