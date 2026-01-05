@@ -1,133 +1,213 @@
 <?php
-include("config.php");
 
-// --- Function to convert wind degrees to cardinal direction ---
-function wind_cardinals($deg) {
-    // Handle the North case which wraps around 360/0
-    if ($deg >= 348.75 || $deg < 11.25) {
-        return 'N';
-    }
+//Servidor OnLine
+$servername = "localhost";
+$username = "juan";
+$password = "Lasflores506";
+$dbname = "admin_cava";
+$zonaHoraria = "-3 hours";
 
-    $cardinalDirections = [
-        'NNE' => [11.25, 33.75],
-        'NE'  => [33.75, 56.25],
-        'ENE' => [56.25, 78.75],
-        'E'   => [78.75, 101.25],
-        'ESE' => [101.25, 123.75],
-        'SE'  => [123.75, 146.25],
-        'SSE' => [146.25, 168.75],
-        'S'   => [168.75, 191.25],
-        'SSO' => [191.25, 213.75],
-        'SO'  => [213.75, 236.25],
-        'OSO' => [236.25, 258.75],
-        'O'   => [258.75, 281.25],
-        'ONO' => [281.25, 303.75],
-        'NO'  => [303.75, 326.25],
-        'NNO' => [326.25, 348.75]
-    ];
+//Servidor Local
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "cava";
+// $zonaHoraria = "0 hours";
 
-    foreach ($cardinalDirections as $dir => $angles) {
-        if ($deg >= $angles[0] && $deg < $angles[1]) {
-            return $dir;
-        }
-    }
-    return 'N/A'; // Return a default value if something goes wrong
-}
-
-// --- Fetch data from OpenWeatherMap API ---
-$apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" . urlencode($ciudad) . "&units=metric&lang=es&appid=" . $apiKey;
-$responseJson = @file_get_contents($apiUrl); // Use @ to suppress warnings on failure
-
-if ($responseJson === false) {
-    die("Error: No se pudo conectar a la API de OpenWeatherMap.");
-}
-
-$data = json_decode($responseJson);
-
-if ($data === null || isset($data->cod) && $data->cod != 200) {
-    die("Error: Respuesta inválida de la API. Mensaje: " . ($data->message ?? 'No hay datos'));
-}
-
-// --- Process API data ---
-$fecha = new DateTime('now', new DateTimeZone('UTC'));
+$fecha = new DateTime(date("Y-m-d H:i:s"));
 $fecha->modify($zonaHoraria);
-$fechaFormateada = $fecha->format('Y-m-d H:i:s');
+$fecha = $fecha->format('Y-m-d H:i:s');
 
-$report_dt = new DateTime('@' . $data->dt);
-$report_dt->setTimezone(new DateTimeZone(str_replace(' hours', '', $zonaHoraria)));
-$report_dt_formateada = $report_dt->format('Y-m-d H:i');
 
-$ciudadNombre = $data->name;
-$temp = $data->main->temp;
-$presion = $data->main->pressure;
-$humedad = $data->main->humidity;
-$vel_viento_ms = $data->wind->speed;
-$vel_dir_deg = $data->wind->deg ?? 0;
-$nubes = $data->clouds->all;
-$descripcion = $data->weather[0]->description;
-$icono = $data->weather[0]->icon . ".png";
-$temp_st = $data->main->feels_like;
-$visibilidad = isset($data->visibility) ? $data->visibility / 1000 : 0; // Visibility in km
+$c='neuquen';
 
-// Convert wind speed from m/s to km/h
-$vel_viento_kmh = round($vel_viento_ms * 3.6);
-$vel_dir_cardinal = wind_cardinals($vel_dir_deg);
+function wind_cardinals($deg) {
+	$cardinal=0;
+	$cardinalDirections = array(
+		'N' => array(348.75, 360),
+		'N' => array(0, 11.25),
+		'NNE' => array(11.25, 33.75),
+		'NE' => array(33.75, 56.25),
+		'ENE' => array(56.25, 78.75),
+		'E' => array(78.75, 101.25),
+		'ESE' => array(101.25, 123.75),
+		'SE' => array(123.75, 146.25),
+		'SSE' => array(146.25, 168.75),
+		'S' => array(168.75, 191.25),
+		'SSO' => array(191.25, 213.75),
+		'SO' => array(213.75, 236.25),
+		'OSO' => array(236.25, 258.75),
+		'O' => array(258.75, 281.25),
+		'ONO' => array(281.25, 303.75),
+		'NO' => array(303.75, 326.25),
+		'NNO' => array(326.25, 348.75)
+	);
+	foreach ($cardinalDirections as $dir => $angles) {
 
-// --- Database connection ---
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Error de conexión a la base de datos: " . $conn->connect_error);
+			if ($deg >= $angles[0] && $deg < $angles[1]) {
+				$cardinal = $dir;
+			}
+		}
+		return $cardinal;
 }
 
-// --- Insert data using Prepared Statements (Security Fix) ---
-$sql = "INSERT INTO " . $dbTable . " (
-    w_report,
-    w_date,
-    w_temp,
-    w_humedad,
-    w_wind,
-    w_dir,
-    w_pressure,
-    w_desc,
-    w_icon,
-    w_visibility,
-    w_city,
-    w_cloud,
-    w_temp_st
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$html = file_get_contents("https://api.openweathermap.org/data/2.5/weather?q=".$c."&units=metric&lang=es&appid=199f918678e7e48319bdbc62a3610f99");
+$json = json_decode($html);
 
-$stmt = $conn->prepare($sql);
+$ciudad = $json->name;
+$temp = $json->main->temp;
+$presion = $json->main->pressure;
+$humedad = $json->main->humidity;
+$vel_viento = $json->wind->speed;
+$vel_dir = wind_cardinals($json->wind->deg);
+$nubes = $json->clouds->all;
+$estado_cielo = $json->weather[0]->main;
+$descripcion = $json->weather[0]->description;
+$icono = $json->weather[0]->icon.".png";
+$vel_viento = round(($vel_viento *60*60)/1000);
+$visibilidad = $json->visibility / 1000;
 
-if ($stmt === false) {
-    die("Error al preparar la consulta: " . $conn->error);
-}
+$temp_st = $json->main->feels_like;
 
-// Bind parameters: s=string, d=double, i=integer
-$stmt->bind_param(
-    "ssddisdsdsidi",
-    $report_dt_formateada,
-    $fechaFormateada,
-    $temp,
-    $humedad,
-    $vel_viento_kmh,
-    $vel_dir_cardinal,
-    $presion,
-    $descripcion,
-    $icono,
-    $visibilidad,
-    $ciudadNombre,
-    $nubes,
-    $temp_st
-);
+$dt =  new DateTime(gmdate("Y-m-d H:i:s", $json->dt));
+$dt->modify("-3 hours");
+$dt = $dt->format('Y-m-d H:i');
 
-// Execute the statement
-if ($stmt->execute()) {
-    echo "Nuevo registro de clima insertado correctamente.";
-} else {
-    echo "Error al insertar el registro: " . $stmt->error;
-}
+$conn = new mysqli($servername, $username,$password,$dbname);
 
-$stmt->close();
-$conn->close();
+$sql = "INSERT INTO cava_weather2 (
+	w_report,
+	w_date ,
+	w_temp,
+	w_humedad ,
+	w_wind ,
+	w_dir ,
+	w_pressure ,
+	w_desc ,
+	w_icon ,
+	w_visibility ,
+	w_city ,
+	w_cloud,
+	w_temp_st
+	) VALUES (
+		'" . $dt ."',
+		'" . $fecha ."',
+		" . $temp. ",
+		" . $humedad .",
+		" . $vel_viento .",
+		'" . $vel_dir ."',
+		" . $presion .",
+		'" . $descripcion ."',
+		'" . $icono ."',
+		" . $visibilidad .",
+		'" .$ciudad ."',
+		" . $nubes .",
+		" . $temp_st ."
+		)" ;
+$result = $conn->query($sql);
 
+// $ciudad = "";
+// $temp = "";
+// $presion = "";
+// $humedad = "";
+// $vel_viento = "";
+// $vel_dir = "";
+// $nubes = "";
+// $estado_cielo = "";
+// $descripcion ="";
+// $icono = "";
+// $vel_viento ="";
+// $visibilidad = "";
+
+// $html = file_get_contents("https://api.darksky.net/forecast/7dc96b6e4d2eae9ec926d62b7f65b58b/-38.94276,-68.053724?lang=es&exclude=minutely,hourly,daily&units=auto");
+// //$html = file_get_contents("https://api.darksky.net/forecast/7dc96b6e4d2eae9ec926d62b7f65b58b/-32.96200,-60.63358?lang=es&exclude=minutely,hourly,daily&units=auto");
+// $json = json_decode($html);
+
+// $temp = $json->currently->temperature;
+// $presion = $json->currently->pressure;
+// $humedad = $json->currently->humidity*100;
+// $vel_viento = $json->currently->windSpeed;
+// $vel_dir = wind_cardinals($json->currently->windBearing);
+// $nubes = $json->currently->cloudCover*100;
+// $descripcion = $json->currently->summary;
+// $visibilidad = $json->currently->visibility;
+// $ciudad = "Neuquen";
+// $icono =  $json->currently->icon;
+// $temp_st = $json->currently->apparentTemperature;
+// $precipIntensity =  $json->currently->precipIntensity;
+// $precipProbability =  $json->currently->precipProbability;
+// $dewPoint =  $json->currently->dewPoint;
+// $windGust =  $json->currently->windGust;
+// $uvIndex =  $json->currently->uvIndex;
+// $ozone =  $json->currently->ozone;
+// $fechaUnix = $json->currently->time;
+// //echo $fecha;
+// $dt =  new DateTime(gmdate("Y-m-d H:i:s", $fechaUnix));
+// $dt->modify("-3 hours");
+// $dt = $dt->format('Y-m-d H:i');
+
+// echo "temp              " . $temp . "<br>";
+// echo "presion           " . $presion . "<br>";
+// echo "humedad           " . $humedad . "<br>";
+// echo "vel_viento        " . $vel_viento . "<br>";
+// echo "vel_dir           " . $vel_dir . "<br>";
+// echo "nubes             " . $nubes . "<br>";
+// echo "descripcion       " . $descripcion . "<br>";
+// echo "visibilidad       " . $visibilidad . "<br>";
+// echo "ciudad            " . $ciudad . "<br>";
+// echo "icono             " . $icono . "<br>";
+// echo "temp_st           " . $temp_st . "<br>";
+// echo "precipIntensity   " . $precipIntensity . "<br>";
+// echo "precipProbability " . $precipProbability  . "<br>";
+// echo "dewPoint          " . $dewPoint . "<br>";
+// echo "-----------------windGust          " . $windGust . "<br>";
+// echo "uvIndex           " . $uvIndex . "<br>";
+// echo "ozone           " . $ozone . "<br>";
+// echo "fechaUnix         " . $fechaUnix . "<br>";
+//echo $dt;
+//$conn = new mysqli($servername, $username,$password,$dbname);
+
+// $sql = "INSERT INTO cava_weather2 (
+// 	w_report,
+// 	w_date ,
+// 	w_temp,
+// 	w_humedad ,
+// 	w_wind ,
+// 	w_dir ,
+// 	w_pressure ,
+// 	w_desc ,
+// 	w_icon ,
+// 	w_visibility ,
+// 	w_city ,
+// 	w_cloud,
+// 	w_temp_st,
+// 	w_rafagas,
+// 	w_prpInt,
+// 	w_prpprop,
+// 	w_puntorocio,
+// 	w_uvindex,
+// 	w_ozono)
+// VALUES (
+// 	'" . $dt ."',
+// 	'" .$fecha ."',
+// 	" . $temp . ",
+// 	" . $humedad .",
+// 	" . $vel_viento .",
+// 	'" . $vel_dir ."',
+// 	" . $presion .",
+// 	'" . $descripcion ."',
+// 	'" . $icono ."',
+// 	" . $visibilidad .",
+// 	'" . $ciudad ."',
+// 	" . $nubes . ",
+// 	" . $temp_st .	",
+// 	" . $windGust .	",
+// 	" . $precipIntensity .	",
+// 	" . $precipProbability .",
+// 	" . $dewPoint .	",
+// 	" . $uvIndex . ",
+// 	" . $ozone . "
+// )" ;
+// //echo $sql;
+// $result = $conn->query($sql);
 ?>
