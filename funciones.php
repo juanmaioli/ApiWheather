@@ -11,6 +11,7 @@ function mesMostrar() {
 }
 
 function iconoClima($w_icon) {
+    $w_icon = str_replace('.png', '', $w_icon) . '.png';
     $iconMap = [
         "01d.png" => "<i class='fa-thin fa-sun text-warning fa-5x' alt='Soleado'></i>&nbsp;",
         "01n.png" => "<i class='fa-thin fa-moon text-info fa-5x'></i>&nbsp;",
@@ -40,19 +41,22 @@ function iconoClima($w_icon) {
         "cloudy" => "<i class='fa-thin fa-cloud text-info fa-5x'></i>&nbsp;",
         "partly-cloudy-d" => "<i class='fa-thin fa-cloud-sun text-warning fa-5x'></i>&nbsp;",
         "partly-cloudy-n" => "<i class='fa-thin fa-cloud-moon text-info fa-5x'></i>&nbsp;",
-        "partly-cloudy-day" => "<i class='fa-thin fa-cloud-sun text-warning fa-lg'></i>&nbsp;",
-        "partly-cloudy-night" => "<i class='fa-thin fa-cloud-moon text-info fa-lg'></i>&nbsp;"
+        "partly-cloudy-day" => "<i class='fa-thin fa-cloud-sun text-warning fa-5x'></i>&nbsp;",
+        "partly-cloudy-night" => "<i class='fa-thin fa-cloud-moon text-info fa-5x'></i>&nbsp;"
     ];
 
     return $iconMap[$w_icon] ?? "<i class='fa-thin fa-question text-muted fa-5x'></i>&nbsp;"; // Default icon
 }
 
 function iconoClimaEmoji($w_icon) {
+    $w_icon = str_replace('.png', '', $w_icon) . '.png';
     $iconMap = [
         // Iconos de OpenWeatherMap (ej. 01d.png)
         "01d.png" => "☀️", // Soleado (día)
         "01n.png" => "🌙", // Noche despejada
         "02d.png" => "⛅", // Pocas nubes (día)
+        "02n.png" => "☁️🌙", // Pocas nubes (noche)
+        "03d.png" => "☁️", // Nubes dispersas (día)
         "03n.png" => "☁️", // Nubes dispersas (noche)
         "04d.png" => "☁️", // Nubes rotas (día)
         "04n.png" => "☁️", // Nubes rotas (noche)

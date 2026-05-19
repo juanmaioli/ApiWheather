@@ -7,6 +7,8 @@ include("funciones.php");
 $apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" . urlencode($ciudad) . "&units=metric&lang=es&appid=" . $apiKey;
 $responseJson = @file_get_contents($apiUrl); // Use @ to suppress warnings on failure
 
+// echo $apiUrl;
+
 if ($responseJson === false) {
     die("Error: No se pudo conectar a la API de OpenWeatherMap.");
 }
@@ -29,6 +31,8 @@ $report_dt->modify($zonaHoraria); // Apply offset if timezone object isn't perfe
 $report_dt_formateada = $report_dt->format('Y-m-d H:i');
 
 
+// $ciudadNombre = !empty($ciudad) && $ciudad != "nombre en openweathermap.org" ? $ciudad : $data->name;
+// $ciudadNombre = explode(',', $ciudadNombre)[0]; // Limpiar si viene como "Ciudad, PA"
 $ciudadNombre = $data->name;
 $temp = $data->main->temp;
 $presion = $data->main->pressure;
@@ -37,7 +41,7 @@ $vel_viento_ms = $data->wind->speed;
 $vel_dir_deg = $data->wind->deg ?? 0;
 $nubes = $data->clouds->all;
 $descripcion = $data->weather[0]->description;
-$icono = $data->weather[0]->icon . ".png";
+$icono = $data->weather[0]->icon . ".png"; // Mantener formato para mapeo en funciones.php
 $temp_st = $data->main->feels_like;
 $visibilidad = isset($data->visibility) ? $data->visibility / 1000 : 0; // Visibility in km
 
@@ -77,7 +81,7 @@ if ($stmt === false) {
 
 // Bind parameters: s=string, d=double, i=integer
 $stmt->bind_param(
-    "ssddisdsdsidi",
+    "ssddisdssdsid",
     $report_dt_formateada,
     $fechaFormateada,
     $temp,
@@ -103,4 +107,7 @@ if ($stmt->execute()) {
 $stmt->close();
 $conn->close();
 
+# Cron desde el Host (Configuración verificada)
+// Para activar la tarea programada, añadí esta línea al crontab del host (crontab -e):
+// */25 * * * * /usr/bin/docker exec -u www-data webserver php /var/www/html/apiwheather/cron_api.php >> /home/juan/VirtualMachines/Docker/WebServer/www_data/apiwheather/cron.log 2>&1
 ?>

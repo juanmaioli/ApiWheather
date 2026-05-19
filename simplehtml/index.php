@@ -16,7 +16,7 @@ $amanecer = gmdate("H:i", $data['sunrise'] + 3600 * ($timezone));
 $atardecer = gmdate("H:i", $data['sunset'] + 3600 * ($timezone));
 
 //DatosWidget
-$sql = "SELECT * FROM cava_weather2 order by w_report desc limit 1";
+$sql = "SELECT * FROM " . $dbTable . " order by w_report desc limit 1";
 $conn = new mysqli($servername, $username, $password, $dbname);
 $result = $conn->query($sql);
 

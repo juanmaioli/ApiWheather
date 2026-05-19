@@ -17,7 +17,7 @@ $amanecer = gmdate("H:i", $data['sunrise'] + 3600 * ($timezone));
 $atardecer = gmdate("H:i", $data['sunset'] + 3600 * ($timezone));
 
 //DatosWidget
-$sql = "SELECT * FROM cava_weather2 order by w_report desc limit 1";
+$sql = "SELECT * FROM " . $dbTable . " order by w_report desc limit 1";
 $conn = new mysqli($servername, $username, $password, $dbname);
 $result = $conn->query($sql);
 
@@ -170,10 +170,9 @@ $mesNombre = mesMostrar();
 											<td class="text-right "><?php echo $w_visibility; ?>km</td>
 										</tr>
 										<tr>
-											<td colspan="2"><h5><i class="fa-thin fa-sunrise text-warning"></i> <?php echo $amanecer; ?></h5></td>
-										</tr>
-										<tr>
-											<td colspan="2"><h5><i class="fa-thin fa-sunset text-warning"></i><?php echo $atardecer; ?></h5></td>
+											<td><h5><i class="fa-thin fa-sunrise text-warning"></i> <?php echo $amanecer; ?></h5></td>
+
+											<td><h5><i class="fa-thin fa-sunset text-warning"></i><?php echo $atardecer; ?></h5></td>
 										</tr>
 									</table>
 								</div>
