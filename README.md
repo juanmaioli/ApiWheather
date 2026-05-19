@@ -11,7 +11,7 @@ El sistema se divide en tres capas principales:
 *   **Presentación (Endpoints):** El proyecto ofrece la misma información en múltiples formatos:
     *   `json/`: API JSON para integraciones programáticas.
     *   `csv/`: Exportación de datos en formato CSV.
-    *   `fullhtml/`: Interfaz visual completa con Bootstrap 5 y Font Awesome.
+    *   `fullhtml/`: Interfaz visual completa con Bootstrap 5.3, **soporte nativo para modo oscuro (interruptor persistente)** y Font Awesome.
     *   `simplehtml/`: Versión HTML simplificada.
     *   `txt/`: Versión en texto plano.
 
