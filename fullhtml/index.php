@@ -96,7 +96,7 @@ $mesNombre = mesMostrar();
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>PikAppWiFi</title>
+	<title>Weather App</title>
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="./css/bootstrap.min.css">
@@ -139,7 +139,7 @@ $mesNombre = mesMostrar();
 
 <body>
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row mt-5">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
 				<div class="card shadow-sm m-2" style="height: auto; min-height: 350px;">

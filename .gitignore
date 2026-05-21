@@ -4,3 +4,4 @@ config.php
 .htaccess
 .vscode/
 GEMINI.md
+cron.log
